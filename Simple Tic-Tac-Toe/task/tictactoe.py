@@ -15,15 +15,52 @@ def diagonal(c):
            (s[2] == c and s[4] == c and s[6] == c)
 
 
-s = input("Enter cells: ")
-p = " ".join(s).replace('_', ' ')
-x, o = 'X', 'O'
-print(f"""---------
+def print_game_grid(grid):
+    p = str()
+    for i in range(0, 3):
+        for j in range(0, 3):
+            p += grid[i][j] + ' '
+    print(f"""---------
 | {p[:6]}|
 | {p[6:12]}|
-| {p[12:]} |
+| {p[12:]}|
 ---------""")
 
+
+# Get initial string of cell values and replace underscores with spaces
+s = input("Enter cells: ").replace('_', ' ')
+
+# Transform input string into a list of lists
+cells, k = list(), 0
+for i in range(0, 3):
+    cells.append(list())
+    for j in range(0, 3):
+        cells[i].append(s[k])
+        k += 1
+
+print_game_grid(cells)
+
+valid = False
+a, b = int(), int()
+while not valid:
+    cell = input("Enter the coordinates: ")
+    if cell[0:3:2].isnumeric():
+        a = int(cell[0])
+        b = int(cell[2])
+        if a < 1 or a > 3 or b < 1 or b > 3:
+            print("Coordinates should be from 1 to 3!")
+        elif cells[a - 1][b - 1] != ' ':
+            print("This cell is occupied! Choose another one!")
+        else:
+            cells[a - 1][b - 1] = 'X'
+            valid = True
+    else:
+        print("You should enter numbers!")
+
+
+print_game_grid(cells)
+
+x, o = 'X', 'O'
 x_wins = horizontal(x) or vertical(x) or diagonal(x)
 o_wins = horizontal(o) or vertical(o) or diagonal(o)
 
