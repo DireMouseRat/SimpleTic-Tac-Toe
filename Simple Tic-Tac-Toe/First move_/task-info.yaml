@@ -1,10 +1,6 @@
 type: edu
 custom_name: First move!
 files:
-- name: tictactoe.py
-  visible: true
-  text: '# write your code here'
-  learner_created: false
 - name: tests.py
   visible: false
   text: |
@@ -257,6 +253,10 @@ files:
     if __name__ == '__main__':
         TicTacToeTest().run_tests()
   learner_created: false
+- name: tictactoe.py
+  visible: true
+  text: '# write your code here'
+  learner_created: false
 feedback_link: https://hyperskill.org/projects/73/stages/402/implement#comment
-status: Unchecked
-record: -1
+status: Solved
+record: 4
