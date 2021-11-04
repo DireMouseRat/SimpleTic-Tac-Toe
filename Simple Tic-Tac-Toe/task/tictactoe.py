@@ -49,14 +49,17 @@ class Game:
                (self.grid[0][2] == p and self.grid[1][1] == p and self.grid[2][0] == p)
 
     def empty_spaces(self):
-        pass
+        for row in self.grid:
+            for cell in row:
+                if cell == ' ':
+                    return True
 
     def take_turn(self):
         valid = False
         while not valid:
-            cell = input("Enter the coordinates: ")
-            if cell[0:3:2].isnumeric():
-                a, b = int(cell[0]), int(cell[2])
+            cell = input("Enter the coordinates: ").replace(' ', '')
+            if cell.isnumeric():
+                a, b = int(cell[0]), int(cell[1])
                 if self.out_of_range(a, b):
                     print("Coordinates should be from 1 to 3!")
                 elif self.occupied_cell(a, b):
