@@ -1,0 +1,14 @@
+type: code
+files:
+- name: main.py
+  visible: true
+  text: |-
+    class City:
+        # define methods here
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7448#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Mon, 08 Nov 2021 17:25:12 UTC
+record: -1

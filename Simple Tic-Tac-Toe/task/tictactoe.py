@@ -1,16 +1,11 @@
 class Game:
     def __init__(self):
-        self.player = 'X'
+        self.x, self.o = 'X', 'O'
+        self.current_player = self.x
         self.winner = str()
-        self.grid = [[' ' for _ in range(0, 3)] for _ in range(0, 3)]
+        self.grid_size = 3
+        self.grid = [[' ' for _ in range(0, self.grid_size)] for _ in range(0, self.grid_size)]
         self.start_game()
-
-    def print_game_grid(self):
-        print("---------")
-        print(f"| {self.grid[0][0]} {self.grid[0][1]} {self.grid[0][2]} |")
-        print(f"| {self.grid[1][0]} {self.grid[1][1]} {self.grid[1][2]} |")
-        print(f"| {self.grid[2][0]} {self.grid[2][1]} {self.grid[2][2]} |")
-        print("---------")
 
     def start_game(self):
         while not self.game_over():
@@ -20,39 +15,39 @@ class Game:
         self.declare_winner()
 
     def game_over(self):
-        x, o = 'X', 'O'
-        x_wins = self.horizontal(x) or self.vertical(x) or self.diagonal(x)
-        o_wins = self.horizontal(o) or self.vertical(o) or self.diagonal(o)
-        if x_wins:
+        if self.player_wins(self.x):
             self.winner = 'X wins'
             return True
-        elif o_wins:
+        elif self.player_wins(self.o):
             self.winner = 'O wins'
             return True
-        elif self.empty_spaces():
-            return False
-        self.winner = 'Draw'
-        return True
+        elif not self.empty_spaces():
+            self.winner = 'Draw'
+            return True
+        return False
+
+    def print_game_grid(self):
+        print("---------")
+        for i in range(0, self.grid_size):
+            print("| " + ' '.join([p for p in self.grid[i]]) + " |")
+        print("---------")
+
+    def player_wins(self, p):
+        return any([self.horizontal(p), self.vertical(p), self.diagonal(p)])
 
     def horizontal(self, p):
-        return (self.grid[0][0] == p and self.grid[0][1] == p and self.grid[0][2] == p) or \
-               (self.grid[1][0] == p and self.grid[1][1] == p and self.grid[1][2] == p) or \
-               (self.grid[2][0] == p and self.grid[2][1] == p and self.grid[2][2] == p)
+        return any([all([cell == p for cell in row]) for row in self.grid])
 
     def vertical(self, p):
-        return (self.grid[0][0] == p and self.grid[1][0] == p and self.grid[2][0] == p) or \
-               (self.grid[0][1] == p and self.grid[1][1] == p and self.grid[2][1] == p) or \
-               (self.grid[0][2] == p and self.grid[1][2] == p and self.grid[2][2] == p)
+        return any([all([self.grid[j][i] == p for j in range(0, self.grid_size)]) for i in range(0, self.grid_size)])
 
     def diagonal(self, p):
-        return (self.grid[0][0] == p and self.grid[1][1] == p and self.grid[2][2] == p) or \
-               (self.grid[0][2] == p and self.grid[1][1] == p and self.grid[2][0] == p)
+        left_to_right = all([self.grid[i][i] == p for i in range(0, self.grid_size)])
+        right_to_left = all([self.grid[i][self.grid_size - i - 1] == p for i in range(0, self.grid_size)])
+        return any([left_to_right, right_to_left])
 
     def empty_spaces(self):
-        for row in self.grid:
-            for cell in row:
-                if cell == ' ':
-                    return True
+        return any([any(cell == ' ' for cell in row) for row in self.grid])
 
     def take_turn(self):
         valid = False
@@ -74,13 +69,13 @@ class Game:
         return self.grid[a - 1][b - 1] != ' '
 
     def out_of_range(self, a, b):
-        return a < 1 or a > 3 or b < 1 or b > 3
+        return any([a < 1, a > self.grid_size, b < 1, b > self.grid_size])
 
     def apply_cell(self, a, b):
-        self.grid[a - 1][b - 1] = self.player
+        self.grid[a - 1][b - 1] = self.current_player
 
     def next_turn(self):
-        self.player = 'O' if self.player == 'X' else 'X'
+        self.current_player = 'O' if self.current_player == 'X' else 'X'
 
     def declare_winner(self):
         self.print_game_grid()
