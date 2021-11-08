@@ -55,7 +55,10 @@ class Game:
         while not valid:
             cell = input("Enter the coordinates: ").replace(' ', '')
             if cell.isnumeric():
-                a, b = int(cell[0]), int(cell[1])
+                try:
+                    a, b = int(cell[0]), int(cell[1])
+                except IndexError:
+                    continue
                 if self.out_of_range(a, b):
                     print("Coordinates should be from 1 to 3!")
                 elif self.occupied_cell(a, b):
