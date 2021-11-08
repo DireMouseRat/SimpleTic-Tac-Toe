@@ -4,6 +4,7 @@ class Game:
         self.current_player = self.x
         self.winner = str()
         self.grid_size = 3
+        self.top_bottom_borders = '-' * (2 * self.grid_size + 3)
         self.grid = [[' ' for _ in range(0, self.grid_size)] for _ in range(0, self.grid_size)]
         self.start_game()
 
@@ -27,10 +28,10 @@ class Game:
         return False
 
     def print_game_grid(self):
-        print("---------")
+        print(self.top_bottom_borders)
         for i in range(0, self.grid_size):
             print("| " + ' '.join([p for p in self.grid[i]]) + " |")
-        print("---------")
+        print(self.top_bottom_borders)
 
     def player_wins(self, p):
         return any([self.horizontal(p), self.vertical(p), self.diagonal(p)])
