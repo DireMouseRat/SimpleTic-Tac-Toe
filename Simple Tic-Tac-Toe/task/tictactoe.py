@@ -57,7 +57,6 @@ class Game:
                 print("No letters or special characters are allowed.")
 
     def print_game_grid(self):
-        # print(f"It is {self.current_player}'s turn")
         print(self.border_dashes)
         for i in range(0, self.size):
             print("| " + ' '.join([p for p in self.grid[i]]) + " |")
